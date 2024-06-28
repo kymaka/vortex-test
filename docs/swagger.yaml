@@ -158,6 +158,39 @@ paths:
       tags:
       - orders
   /order/history:
+    get:
+      description: Returns the order history for a given client.
+      parameters:
+      - description: Client
+        in: body
+        name: client
+        required: true
+        schema:
+          $ref: '#/definitions/models.Client'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.HistoryOrder'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get order history
+      tags:
+      - orders
     post:
       consumes:
       - application/json

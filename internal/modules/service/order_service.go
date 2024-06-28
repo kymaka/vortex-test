@@ -6,7 +6,7 @@ import (
 )
 
 type OrderService interface {
-	GetOrderBook(exchangeName, pair string) (*models.OrderBookDTO, error)
+	GetOrderBook(exchangeName, pair string) ([]*models.OrderBookDTO, error)
 	SaveOrderBook(id int64, exchangeName, pair string, asks, bids []*models.DepthOrder) error
 	GetOrderHistory(client *models.Client) ([]*models.HistoryOrder, error)
 	SaveOrder(client *models.Client, order *models.HistoryOrder) error
@@ -24,14 +24,18 @@ func NewOrderService(r repository.OrderRepository) OrderService {
 GetOrderBook retrieves the order book for a specific exchange and trading pair.
 Converts the order book model to a DTO before returning.
 */
-func (osi *orderServiceImpl) GetOrderBook(exchangeName, pair string) (*models.OrderBookDTO, error) {
-	order, err := osi.repo.FindOrder(exchangeName, pair)
+func (osi *orderServiceImpl) GetOrderBook(exchangeName, pair string) ([]*models.OrderBookDTO, error) {
+	orders, err := osi.repo.FindOrder(exchangeName, pair)
 	if err != nil {
 		return nil, err
 	}
 
-	orderDTO := order.ToDTO()
-	return &orderDTO, nil
+	ordersDTO := make([]*models.OrderBookDTO, 0, len(orders))
+	for _, order := range orders {
+		dto := order.ToDTO()
+		ordersDTO = append(ordersDTO, &dto)
+	}
+	return ordersDTO, nil
 }
 
 /*

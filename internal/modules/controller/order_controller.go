@@ -104,7 +104,7 @@ func (oci *orderControllerImpl) SaveOrderBookHandler(w http.ResponseWriter, r *h
 //	@Failure		400		{string}	string	"Bad Request"
 //	@Failure		404		{string}	string	"Not Found"
 //	@Failure		500		{string}	string	"Internal Server Error"
-//	@Router			/order/history [post]
+//	@Router			/order/history [get]
 func (oci *orderControllerImpl) GetOrderHistoryHandler(w http.ResponseWriter, r *http.Request) {
 	var client models.Client
 	err := json.NewDecoder(r.Body).Decode(&client)

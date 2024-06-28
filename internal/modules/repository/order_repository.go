@@ -7,7 +7,7 @@ import (
 )
 
 type OrderRepository interface {
-	FindOrder(exchangeName, pair string) (*models.OrderBook, error)
+	FindOrder(exchangeName, pair string) ([]*models.OrderBook, error)
 	SaveOrder(order models.OrderBook) error
 	FindOrderHistory(client *models.Client) ([]*models.HistoryOrder, error)
 	SaveOrderHistory(order models.HistoryOrder) error
@@ -25,8 +25,8 @@ func NewOrderRepository(d *gorm.DB) OrderRepository {
 FindOrder retrieves an order book from the database based on the exchange name and trading pair.
 Returns the order book if found, or an error if not found or any other issue occurs.
 */
-func (ori *orderRepositoryImpl) FindOrder(exchangeName, pair string) (*models.OrderBook, error) {
-	var order models.OrderBook
+func (ori *orderRepositoryImpl) FindOrder(exchangeName, pair string) ([]*models.OrderBook, error) {
+	var order []*models.OrderBook
 	tx := ori.db.Where("exchange = ?", exchangeName).
 		Where("pair = ?", pair).
 		Find(&order)
@@ -38,7 +38,7 @@ func (ori *orderRepositoryImpl) FindOrder(exchangeName, pair string) (*models.Or
 		return nil, tx.Error
 	}
 
-	return &order, nil
+	return order, nil
 }
 
 /*
