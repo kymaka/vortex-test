@@ -7,7 +7,8 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
-	"vortex_test/internal/models"
+
+	"github.com/kymaka/vortex-test/internal/models"
 
 	"github.com/stretchr/testify/assert"
 	"gorm.io/gorm"

@@ -4,8 +4,9 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
-	"vortex_test/internal/models"
-	"vortex_test/internal/modules/service"
+
+	"github.com/kymaka/vortex-test/internal/models"
+	"github.com/kymaka/vortex-test/internal/modules/service"
 
 	"gorm.io/gorm"
 )

@@ -6,7 +6,8 @@ import (
 	"fmt"
 	"log"
 	"testing"
-	"vortex_test/internal/models"
+
+	"github.com/kymaka/vortex-test/internal/models"
 
 	"github.com/ClickHouse/clickhouse-go/v2"
 	"github.com/stretchr/testify/assert"

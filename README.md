@@ -1,4 +1,5 @@
 - ClickHouse server can be started in docker container, use `docker compose up`
 - To run tests - `go test -v -coverpkg=./... -coverprofile=profile.cov ./...`
+  - Test uses temporary ClickHouse db
 - To change ClickHouse connection values - please edit `.env` file
 - To access API documentation - go to `localhost:8080/swagger/index.html`

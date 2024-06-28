@@ -1,4 +1,4 @@
-module vortex_test
+module github.com/kymaka/vortex-test
 
 go 1.22
 

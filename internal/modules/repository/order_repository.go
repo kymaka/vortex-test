@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"vortex_test/internal/models"
+	"github.com/kymaka/vortex-test/internal/models"
 
 	"gorm.io/gorm"
 )

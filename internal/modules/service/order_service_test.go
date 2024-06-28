@@ -3,7 +3,8 @@ package service
 import (
 	"errors"
 	"testing"
-	"vortex_test/internal/models"
+
+	"github.com/kymaka/vortex-test/internal/models"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"

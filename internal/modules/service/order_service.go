@@ -1,8 +1,8 @@
 package service
 
 import (
-	"vortex_test/internal/models"
-	"vortex_test/internal/modules/repository"
+	"github.com/kymaka/vortex-test/internal/models"
+	"github.com/kymaka/vortex-test/internal/modules/repository"
 )
 
 type OrderService interface {

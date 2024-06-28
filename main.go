@@ -4,12 +4,13 @@ import (
 	"log"
 	"net/http"
 	"time"
-	"vortex_test/internal/infrastructure/db"
-	"vortex_test/internal/modules/controller"
-	"vortex_test/internal/modules/repository"
-	"vortex_test/internal/modules/service"
 
-	_ "vortex_test/docs"
+	"github.com/kymaka/vortex-test/internal/infrastructure/db"
+	"github.com/kymaka/vortex-test/internal/modules/controller"
+	"github.com/kymaka/vortex-test/internal/modules/repository"
+	"github.com/kymaka/vortex-test/internal/modules/service"
+
+	_ "github.com/kymaka/vortex-test/docs"
 
 	httpSwagger "github.com/swaggo/http-swagger"
 
