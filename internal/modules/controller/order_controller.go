@@ -25,15 +25,15 @@ func NewOrderController(s service.OrderService) OrderController {
 	return &orderControllerImpl{service: s}
 }
 
-// GetOrderBookHandler retrieves the order book for a specific exchange and pair.
+// GetOrderBookHandler retrieves the order books for a specific exchange and pair.
 //
-//	@Summary		Get order book
-//	@Description	Returns the order book for a given exchange and pair.
+//	@Summary		Get order books
+//	@Description	Returns the order books for a given exchange and pair.
 //	@Tags			orders
 //	@Produce		json
 //	@Param			exchangeName	query		string	true	"Exchange Name"
 //	@Param			pair			query		string	true	"Trading Pair"
-//	@Success		200				{object}	models.OrderBook
+//	@Success		200				{array}		models.OrderBook
 //	@Failure		400				{string}	string	"Bad Request"
 //	@Failure		404				{string}	string	"Not Found"
 //	@Failure		500				{string}	string	"Internal Server Error"

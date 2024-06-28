@@ -17,14 +17,14 @@ const docTemplate = `{
     "paths": {
         "/order/book": {
             "get": {
-                "description": "Returns the order book for a given exchange and pair.",
+                "description": "Returns the order books for a given exchange and pair.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "orders"
                 ],
-                "summary": "Get order book",
+                "summary": "Get order books",
                 "parameters": [
                     {
                         "type": "string",
@@ -45,7 +45,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.OrderBook"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.OrderBook"
+                            }
                         }
                     },
                     "400": {
