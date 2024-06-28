@@ -25,6 +25,19 @@ func NewOrderController(s service.OrderService) OrderController {
 	return &orderControllerImpl{service: s}
 }
 
+// GetOrderBookHandler retrieves the order book for a specific exchange and pair.
+//
+//	@Summary		Get order book
+//	@Description	Returns the order book for a given exchange and pair.
+//	@Tags			orders
+//	@Produce		json
+//	@Param			exchangeName	query		string	true	"Exchange Name"
+//	@Param			pair			query		string	true	"Trading Pair"
+//	@Success		200				{object}	models.OrderBook
+//	@Failure		400				{string}	string	"Bad Request"
+//	@Failure		404				{string}	string	"Not Found"
+//	@Failure		500				{string}	string	"Internal Server Error"
+//	@Router			/order/book [get]
 func (oci *orderControllerImpl) GetOrderBookHandler(w http.ResponseWriter, r *http.Request) {
 	exchangeName := r.URL.Query().Get("exchangeName")
 	pair := r.URL.Query().Get("pair")
@@ -52,6 +65,17 @@ func (oci *orderControllerImpl) GetOrderBookHandler(w http.ResponseWriter, r *ht
 
 }
 
+// SaveOrderBookHandler saves the order book details.
+//
+//	@Summary		Save order book
+//	@Description	Saves the order book details for a given exchange and pair.
+//	@Tags			orders
+//	@Accept			json
+//	@Param			order	body		models.OrderBookDTO	true	"Order Book DTO"
+//	@Success		200		{string}	string				"OK"
+//	@Failure		400		{string}	string				"Bad Request"
+//	@Failure		500		{string}	string				"Internal Server Error"
+//	@Router			/order/book [post]
 func (oci *orderControllerImpl) SaveOrderBookHandler(w http.ResponseWriter, r *http.Request) {
 	var order models.OrderBookDTO
 	err := json.NewDecoder(r.Body).Decode(&order)
@@ -69,6 +93,18 @@ func (oci *orderControllerImpl) SaveOrderBookHandler(w http.ResponseWriter, r *h
 	w.WriteHeader(http.StatusOK)
 }
 
+// GetOrderHistoryHandler retrieves the order history for a client.
+//
+//	@Summary		Get order history
+//	@Description	Returns the order history for a given client.
+//	@Tags			orders
+//	@Produce		json
+//	@Param			client	body		models.Client	true	"Client"
+//	@Success		200		{array}		models.HistoryOrder
+//	@Failure		400		{string}	string	"Bad Request"
+//	@Failure		404		{string}	string	"Not Found"
+//	@Failure		500		{string}	string	"Internal Server Error"
+//	@Router			/order/history [post]
 func (oci *orderControllerImpl) GetOrderHistoryHandler(w http.ResponseWriter, r *http.Request) {
 	var client models.Client
 	err := json.NewDecoder(r.Body).Decode(&client)
@@ -94,6 +130,17 @@ func (oci *orderControllerImpl) GetOrderHistoryHandler(w http.ResponseWriter, r 
 	w.Write(bytes)
 }
 
+// SaveOrderHandler saves an order for a client.
+//
+//	@Summary		Save order
+//	@Description	Saves an order for a given client.
+//	@Tags			orders
+//	@Accept			json
+//	@Param			payload	body		models.HistoryOrderPayload	true	"History Order Payload"
+//	@Success		200		{string}	string						"OK"
+//	@Failure		400		{string}	string						"Bad Request"
+//	@Failure		500		{string}	string						"Internal Server Error"
+//	@Router			/order/history [post]
 func (oci *orderControllerImpl) SaveOrderHandler(w http.ResponseWriter, r *http.Request) {
 	var payload models.HistoryOrderPayload
 	err := json.NewDecoder(r.Body).Decode(&payload)

@@ -9,12 +9,16 @@ import (
 	"vortex_test/internal/modules/repository"
 	"vortex_test/internal/modules/service"
 
+	_ "vortex_test/docs"
+
+	httpSwagger "github.com/swaggo/http-swagger"
+
 	"github.com/go-chi/chi"
 	"github.com/go-chi/httprate"
 )
 
 func main() {
-	gormDB, err := db.Connect()
+	gormDB, err := db.Connect(".env")
 	if err != nil {
 		log.Fatalf("failed to connect to clickhouse: %v", err)
 	}
@@ -30,6 +34,8 @@ func main() {
 	controller := controller.NewOrderController(service)
 
 	r := chi.NewMux()
+
+	r.Mount("/swagger", httpSwagger.WrapHandler)
 
 	r.Group(func(r chi.Router) {
 		r.Use(httprate.LimitByIP(100, 1*time.Second))

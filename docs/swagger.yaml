@@ -1,0 +1,188 @@
+definitions:
+  models.Client:
+    properties:
+      clientName:
+        type: string
+      exchangeName:
+        type: string
+      label:
+        type: string
+      pair:
+        type: string
+    type: object
+  models.DepthOrder:
+    properties:
+      baseQty:
+        type: number
+      price:
+        type: number
+    type: object
+  models.HistoryOrder:
+    properties:
+      algorithmNamePlaced:
+        type: string
+      baseQty:
+        type: number
+      clientName:
+        type: string
+      commissionQuoteQty:
+        type: number
+      exchangeName:
+        type: string
+      highestBuyPrc:
+        type: number
+      label:
+        type: string
+      lowestSellPrc:
+        type: number
+      pair:
+        type: string
+      price:
+        type: number
+      side:
+        type: string
+      timePlaced:
+        type: string
+      type:
+        type: string
+    type: object
+  models.HistoryOrderPayload:
+    properties:
+      client:
+        $ref: '#/definitions/models.Client'
+      history:
+        $ref: '#/definitions/models.HistoryOrder'
+    type: object
+  models.OrderBook:
+    properties:
+      asks:
+        items:
+          items:
+            type: number
+          type: array
+        type: array
+      bids:
+        items:
+          items:
+            type: number
+          type: array
+        type: array
+      exchange:
+        type: string
+      id:
+        type: integer
+      pair:
+        type: string
+    type: object
+  models.OrderBookDTO:
+    properties:
+      asks:
+        items:
+          $ref: '#/definitions/models.DepthOrder'
+        type: array
+      bids:
+        items:
+          $ref: '#/definitions/models.DepthOrder'
+        type: array
+      exchange:
+        type: string
+      id:
+        type: integer
+      pair:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /order/book:
+    get:
+      description: Returns the order book for a given exchange and pair.
+      parameters:
+      - description: Exchange Name
+        in: query
+        name: exchangeName
+        required: true
+        type: string
+      - description: Trading Pair
+        in: query
+        name: pair
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.OrderBook'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get order book
+      tags:
+      - orders
+    post:
+      consumes:
+      - application/json
+      description: Saves the order book details for a given exchange and pair.
+      parameters:
+      - description: Order Book DTO
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/models.OrderBookDTO'
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Save order book
+      tags:
+      - orders
+  /order/history:
+    post:
+      consumes:
+      - application/json
+      description: Saves an order for a given client.
+      parameters:
+      - description: History Order Payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/models.HistoryOrderPayload'
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Save order
+      tags:
+      - orders
+swagger: "2.0"

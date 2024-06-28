@@ -21,6 +21,10 @@ func NewOrderRepository(d *gorm.DB) OrderRepository {
 	return &orderRepositoryImpl{db: d}
 }
 
+/*
+FindOrder retrieves an order book from the database based on the exchange name and trading pair.
+Returns the order book if found, or an error if not found or any other issue occurs.
+*/
 func (ori *orderRepositoryImpl) FindOrder(exchangeName, pair string) (*models.OrderBook, error) {
 	var order models.OrderBook
 	tx := ori.db.Where("exchange = ?", exchangeName).
@@ -37,6 +41,10 @@ func (ori *orderRepositoryImpl) FindOrder(exchangeName, pair string) (*models.Or
 	return &order, nil
 }
 
+/*
+SaveOrder saves a new order book to the database.
+Returns an error if the operation fails.
+*/
 func (ori *orderRepositoryImpl) SaveOrder(order models.OrderBook) error {
 	tx := ori.db.Create(&order)
 
@@ -47,6 +55,10 @@ func (ori *orderRepositoryImpl) SaveOrder(order models.OrderBook) error {
 	return nil
 }
 
+/*
+FindOrderHistory retrieves the order history for a given client from the database.
+Returns the order history if found, or an error if not found or any other issue occurs.
+*/
 func (ori *orderRepositoryImpl) FindOrderHistory(client *models.Client) ([]*models.HistoryOrder, error) {
 	var orderHistory []*models.HistoryOrder
 	tx := ori.db.
@@ -67,6 +79,10 @@ func (ori *orderRepositoryImpl) FindOrderHistory(client *models.Client) ([]*mode
 	return orderHistory, nil
 }
 
+/*
+SaveOrderHistory saves a new order history record to the database.
+Returns an error if the operation fails.
+*/
 func (ori *orderRepositoryImpl) SaveOrderHistory(order models.HistoryOrder) error {
 	tx := ori.db.Create(&order)
 

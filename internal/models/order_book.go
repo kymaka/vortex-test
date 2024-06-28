@@ -16,6 +16,10 @@ type OrderBookDTO struct {
 
 type Tuple [2]float64
 
+/*
+Type for easier integration with ClickHouse to store array of tuples
+Implements Scanner and Valuer interfaces for auto marshal and unmarshal
+*/
 type Tuples []Tuple
 
 func (t Tuples) Value() (driver.Value, error) {

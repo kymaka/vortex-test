@@ -1,12 +1,29 @@
 package db
 
 import (
+	"os"
+
+	"fmt"
+
+	"github.com/joho/godotenv"
 	"gorm.io/driver/clickhouse"
 	"gorm.io/gorm"
 )
 
-func Connect() (*gorm.DB, error) {
-	dsn := "clickhouse://default:@localhost:9000/default?dial_timeout=10s&read_timeout=20s"
+/*
+Function for connecting to default db in ClickHouse
+Uses .env variable for name, user, passm host and port
+*/
+func Connect(env string) (*gorm.DB, error) {
+	godotenv.Load(env)
+
+	pass := os.Getenv("DB_PASSWORD")
+	name := os.Getenv("DB_NAME")
+	user := os.Getenv("DB_USER")
+	port := os.Getenv("DB_PORT")
+	host := os.Getenv("DB_HOST")
+
+	dsn := fmt.Sprintf("clickhouse://%s:%s@%s:%s/%s?dial_timeout=10s&read_timeout=20s", user, pass, host, port, name)
 
 	db, err := gorm.Open(clickhouse.Open(dsn), &gorm.Config{})
 	if err != nil {
@@ -24,6 +41,10 @@ func Connect() (*gorm.DB, error) {
 	return db, nil
 }
 
+/*
+Migrations - creatin of tables if they not exists
+Using raw sql queries because gorm currently doesnt't support PK for ClickHouse
+*/
 func Migrate(db *gorm.DB) error {
 	if err := db.Exec(`
 			CREATE TABLE IF NOT EXISTS order_books (
